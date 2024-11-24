@@ -8,7 +8,7 @@ logging.getLogger("ultralytics").setLevel(logging.ERROR)  # 隐藏非错误日�
 
 cap = cv2.VideoCapture(0)  # For Video
  
-model = YOLO(r"D:\postgruduate\face_robot\pickup\yolov8l.pt",verbose=False)
+model = YOLO(r"D:\postgruduate\face_robot\embody_learning\visual\yolov8l.pt",verbose=False)
  
 classNames = ["person", "bicycle", "car", "motorbike", "aeroplane", "bus", "train", "truck", "boat",
               "traffic light", "fire hydrant", "stop sign", "parking meter", "bench", "bird", "cat",

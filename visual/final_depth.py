@@ -9,7 +9,7 @@ import logging
 logging.getLogger("ultralytics").setLevel(logging.ERROR)
 
 # 加载 YOLO 模型
-model = YOLO(r"D:\postgruduate\face_robot\pickup\yolov8l.pt", verbose=False)
+model = YOLO(r"D:\postgruduate\face_robot\embody_learning\visual\yolov8l.pt", verbose=False)
 
 # 定义 COCO 数据集的类别名称
 classNames = ["person", "bicycle", "car", "motorbike", "aeroplane", "bus", "train", "truck", "boat",
