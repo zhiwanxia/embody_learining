@@ -57,7 +57,7 @@ def get_3d_camera_coordinate(depth_pixel, color_frame, depth_frame):
     # print ('vtx_after_reshape: ', vtx.shape)       # (480, 640, 1)
 
     camera_coordinate = vtx[y][x][0]
-    # print ('camera_coordinate: ',camera_coordinate)
+    print ('camera_coordinate: ',camera_coordinate)
     dis = camera_coordinate[2]
     return dis, camera_coordinate
 

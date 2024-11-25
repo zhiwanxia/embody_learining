@@ -50,13 +50,35 @@ def get_3d_camera_coordinate(depth_pixel, color_frame, depth_frame):
     x = depth_pixel[0]
     y = depth_pixel[1]
 
+    ###### 计算点云 #####
     pc.map_to(color_frame)
     points = pc.calculate(depth_frame)
     vtx = np.asanyarray(points.get_vertices())
-    vtx = np.reshape(vtx, (480, 640, -1))
+    #  print ('vtx_before_reshape: ', vtx.shape)        # 307200
+    vtx = np.reshape(vtx,(480, 640, -1))   
+    # print ('vtx_after_reshape: ', vtx.shape)       # (480, 640, 1)
 
-    camera_coordinate = vtx[y][x]
+    camera_coordinate = vtx[y][x][0]
+    # print ('camera_coordinate: ',camera_coordinate)
     return camera_coordinate
+
+# def get_3d_camera_coordinate(depth_pixel, color_frame, depth_frame):
+#     x = depth_pixel[0]
+#     y = depth_pixel[1]
+
+#     # 映射点云到彩色图像
+#     pc.map_to(color_frame)
+#     points = pc.calculate(depth_frame)
+#     vtx = np.asanyarray(points.get_vertices())  # 点云数组
+#     vtx = np.reshape(vtx, (480, 640))  # 将点云重塑为深度图的形状
+
+#     # 从结构化数组中提取 (x, y, z) 坐标
+#     camera_coordinate = (vtx[y][x]['f0'],  # x
+#                          vtx[y][x]['f1'],  # y
+#                          vtx[y][x]['f2'])  # z
+
+#     return camera_coordinate
+
 
 
 if __name__ == "__main__":
@@ -80,8 +102,9 @@ if __name__ == "__main__":
 
                 # Get 3D coordinates of the center
                 depth_pixel = [center_x, center_y]
+                # print(depth_pixel)
                 camera_coordinate = get_3d_camera_coordinate(depth_pixel, color_frame, depth_frame)
-
+                # print(camera_coordinate)
                 # Confidence and class name
                 conf = math.ceil((box.conf[0] * 100)) / 100
                 cls = int(box.cls[0])
@@ -92,11 +115,11 @@ if __name__ == "__main__":
                 cvzone.putTextRect(img_color, f'{class_name} {conf}', (max(0, x1), max(35, y1)), scale=1, thickness=1)
 
                 # Display 3D coordinates
-                cv2.putText(img_color, f"X: {camera_coordinate[0]:.2f} m", (x1, y1 - 60),
+                cv2.putText(img_color, "X:"+str(camera_coordinate[0])+" m", (x1, y1 - 60),
                             cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 0, 0), 2)
-                cv2.putText(img_color, f"Y: {camera_coordinate[1]:.2f} m", (x1, y1 - 40),
+                cv2.putText(img_color, "Y:"+str(camera_coordinate[1])+" m", (x1, y1 - 40),
                             cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 0, 0), 2)
-                cv2.putText(img_color, f"Z: {camera_coordinate[2]:.2f} m", (x1, y1 - 20),
+                cv2.putText(img_color,"Z:"+str(camera_coordinate[2])+" m", (x1, y1 - 20),
                             cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 0, 0), 2)
 
         # Display image
